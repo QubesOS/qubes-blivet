@@ -42,6 +42,7 @@ Patch0: 0001-Double-recommended-LVM-thin-pool-metadata-space.patch
 %global pyudevver 0.18
 
 BuildArch: noarch
+BuildRequires: make
 
 %description
 The python-blivet package is a python module for examining and modifying
@@ -187,7 +188,7 @@ configuration.
 %if %{with python3}
 %files -n python3-%{realname}
 %license COPYING
-%doc README ChangeLog examples
+%doc ChangeLog examples
 %{python3_sitelib}/*
 %endif
 
