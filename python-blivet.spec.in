@@ -25,19 +25,23 @@ Version: @VERSION@
 # prerelease, if defined, should be something like .a1, .b1, .b2.dev1, or .c2
 Release: @REL@%{?prerelease}%{?dist}
 Epoch: 1000
-License: LGPLv2+
+License: LGPL-2.1-or-later
 %global realname blivet
 %global realversion %{version}%{?prerelease}
 Source0: https://github.com/storaged-project/blivet/archive/%{realname}-%{realversion}.tar.gz
 Source1: https://github.com/storaged-project/blivet/archive/%{realname}-%{realversion}-tests.tar.gz
-Patch0: 0001-Double-recommended-LVM-thin-pool-metadata-space.patch
+
+%if 0%{?rhel} >= 9
+Patch0: 0001-remove-btrfs-plugin.patch
+%endif
+Patch1: 0001-Double-recommended-LVM-thin-pool-metadata-space.patch
 
 # Versions of required components (done so we make sure the buildrequires
 # match the requires versions of things).
 %global partedver 1.8.1
 %global pypartedver 3.10.4
 %global utillinuxver 2.15.1
-%global libblockdevver 2.19
+%global libblockdevver 2.24
 %global libbytesizever 0.3
 %global pyudevver 0.18
 
@@ -50,6 +54,7 @@ storage configuration.
 %package -n %{realname}-data
 Summary: Data for the %{realname} python module.
 
+BuildRequires: make
 BuildRequires: systemd
 
 Conflicts: python-blivet < 1:2.0.0
@@ -79,16 +84,16 @@ Requires: python3-blockdev >= %{libblockdevver}
 Recommends: libblockdev-btrfs >= %{libblockdevver}
 Recommends: libblockdev-crypto >= %{libblockdevver}
 Recommends: libblockdev-dm >= %{libblockdevver}
-Recommends: libblockdev-fs >= %{libblockdevver}
-Recommends: libblockdev-kbd >= %{libblockdevver}
 Recommends: libblockdev-loop >= %{libblockdevver}
 Recommends: libblockdev-lvm >= %{libblockdevver}
 Recommends: libblockdev-mdraid >= %{libblockdevver}
 Recommends: libblockdev-mpath >= %{libblockdevver}
-Recommends: libblockdev-nvdimm >= %{libblockdevver}
-Recommends: libblockdev-part >= %{libblockdevver}
 Recommends: libblockdev-swap >= %{libblockdevver}
+
+%ifarch s390 s390x
 Recommends: libblockdev-s390 >= %{libblockdevver}
+%endif
+
 Requires: python3-bytesize >= %{libbytesizever}
 Requires: util-linux >= %{utillinuxver}
 Requires: lsof
@@ -180,14 +185,14 @@ configuration.
 %if %{with python2}
 %files -n python2-%{realname}
 %license COPYING
-%doc README ChangeLog examples
+%doc README.md ChangeLog examples
 %{python2_sitelib}/*
 %endif
 
 %if %{with python3}
 %files -n python3-%{realname}
 %license COPYING
-%doc README ChangeLog examples
+%doc README.md ChangeLog examples
 %{python3_sitelib}/*
 %endif
 

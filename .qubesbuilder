@@ -4,7 +4,7 @@ host:
     - python-blivet.spec
 source:
   files:
-  - url: https://ftp.qubes-os.org/distfiles/blivet-3.2.1-tests.tar.gz
-    sha512: blivet-3.2.1-tests.tar.gz.sha512
-  - url: https://ftp.qubes-os.org/distfiles/blivet-3.2.1.tar.gz
-    sha512: blivet-3.2.1.tar.gz.sha512
+  - url: https://ftp.qubes-os.org/distfiles/blivet-3.5.0-tests.tar.gz
+    sha512: blivet-3.5.0-tests.tar.gz.sha512
+  - url: https://ftp.qubes-os.org/distfiles/blivet-3.5.0.tar.gz
+    sha512: blivet-3.5.0.tar.gz.sha512
